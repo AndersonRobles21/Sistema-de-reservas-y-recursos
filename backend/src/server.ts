@@ -1,3 +1,4 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 import express from "express";
 import cors from "cors";
 import { pool } from "./config/db";
@@ -44,6 +45,24 @@ app.get(`${API_PREFIX}`, async (_req, res) => {
     });
   }
 });
+
+app.use((req, res) => {
+  res.status(404).json({
+    mensaje: "Ruta no encontrada",
+    path: req.path,
+  });
+});
+
+app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("Error Express:", error);
+  res.status(500).json({
+    mensaje: "Error interno del servidor",
+  });
+});
+
+export default function handler(req: VercelRequest, res: VercelResponse): void {
+  app(req as never, res as never);
+}
 
 if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
   const PORT = Number(process.env.PORT || 3000);

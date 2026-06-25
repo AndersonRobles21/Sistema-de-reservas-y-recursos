@@ -32,12 +32,24 @@ export class Login {
         body: JSON.stringify({ email: this.email, password: this.password }),
       });
 
-      if (!response.ok) {
-        const body = await response.json();
-        throw new Error(body.mensaje || 'Error de autenticación');
+      const body = await response.text();
+      let payload: { mensaje?: string; error?: string; token?: string; usuario?: unknown } | null = null;
+
+      try {
+        payload = body ? JSON.parse(body) : null;
+      } catch {
+        payload = null;
       }
 
-      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(payload?.mensaje || payload?.error || body || 'Error de autenticación');
+      }
+
+      const result = payload;
+      if (!result?.token || !result?.usuario) {
+        throw new Error('Respuesta inesperada del servidor');
+      }
+
       localStorage.setItem('token', result.token);
       localStorage.setItem('user', JSON.stringify(result.usuario));
       this.router.navigate(['/reservas']);

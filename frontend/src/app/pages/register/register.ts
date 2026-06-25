@@ -31,9 +31,17 @@ export class Register {
         body: JSON.stringify({ nombre: this.nombre, email: this.email, password: this.password }),
       });
 
+      const body = await response.text();
+      let payload: { mensaje?: string; error?: string } | null = null;
+
+      try {
+        payload = body ? JSON.parse(body) : null;
+      } catch {
+        payload = null;
+      }
+
       if (!response.ok) {
-        const body = await response.json();
-        throw new Error(body.mensaje || 'Error registrando al usuario');
+        throw new Error(payload?.mensaje || payload?.error || body || 'Error registrando al usuario');
       }
 
       await this.router.navigate(['/login']);
