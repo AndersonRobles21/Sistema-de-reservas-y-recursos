@@ -1,0 +1,19 @@
+<div class="app-shell">
+  <header class="app-header">
+    <div>
+      <h1>Reservas - Recursos CBA</h1>
+      <p class="user-greeting" *ngIf="isLoggedIn && userName">Hola, {{ userName }} </p>
+    </div>
+    <nav class="app-nav">
+      <a *ngIf="!isLoggedIn" routerLink="/register">Registro</a>
+      <a *ngIf="!isLoggedIn" routerLink="/login">Iniciar sesión</a>
+      <a *ngIf="isLoggedIn" routerLink="/recursos">Recursos</a>
+      <a *ngIf="isLoggedIn" routerLink="/reservas">Reservas</a>
+      <button *ngIf="isLoggedIn" type="button" (click)="logout()">Cerrar sesión</button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>

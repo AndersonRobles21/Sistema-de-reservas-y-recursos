@@ -1,0 +1,130 @@
+:root {
+  color-scheme: light;
+  --bg: #eff6ff;
+  --surface: #ffffff;
+  --surface-soft: #f8fbff;
+  --primary: #2563eb;
+  --primary-strong: #1d4ed8;
+  --secondary: #7c3aed;
+  --secondary-soft: #ede9fe;
+  --accent: #0ea5e9;
+  --neutral: #111827;
+  --muted: #475569;
+  --border: rgba(15, 23, 42, 0.14);
+  --danger: #ef4444;
+  --radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:host,
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--neutral);
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.12), transparent 30%), linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(124, 58, 237, 0.1));
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0 0 36px 36px;
+}
+
+.app-header > div {
+  max-width: 720px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.7vw, 3rem);
+}
+
+.app-header p {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.user-greeting {
+  margin: 1rem 0 0;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  align-items: center;
+  padding-top: 0.25rem;
+}
+
+.app-nav a,
+.app-nav button {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.95rem 1.3rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.app-nav a {
+  color: var(--primary-strong);
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.app-nav button {
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--secondary);
+  border-color: rgba(124, 58, 237, 0.22);
+}
+
+.app-nav a:hover,
+.app-nav button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.18);
+}
+
+.app-main {
+  flex: 1;
+  padding: 2rem 1.5rem 3rem;
+}
+
+@media (max-width: 840px) {
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .app-nav {
+    justify-content: flex-start;
+  }
+}

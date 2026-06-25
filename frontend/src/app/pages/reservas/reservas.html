@@ -1,0 +1,83 @@
+<section class="reservas-page">
+  <div class="reservas-header">
+    <div>
+      <h1>Gestión de reservas</h1>
+      <p>Crear, ver y cancelar reservas de recursos con control de horarios.</p>
+    </div>
+    <button type="button" (click)="cargarReservas()">Actualizar</button>
+  </div>
+
+  <div class="reservas-grid">
+    <form class="reservas-form" (ngSubmit)="guardarReserva()">
+      <h2>{{ isEditing ? 'Editar reserva' : 'Nueva reserva' }}</h2>
+
+      <label>
+        Recurso
+        <select [(ngModel)]="recurso_id" name="recurso_id" required>
+          <option [value]="0" disabled>Selecciona un recurso</option>
+          <option *ngFor="let recurso of recursos" [value]="recurso.id">{{ recurso.nombre }}</option>
+        </select>
+      </label>
+
+      <label>
+        Fecha
+        <input type="date" [(ngModel)]="fecha" name="fecha" required />
+      </label>
+
+      <label>
+        Hora inicio
+        <input type="time" [(ngModel)]="hora_inicio" name="hora_inicio" required />
+      </label>
+
+      <label>
+        Hora fin
+        <input type="time" [(ngModel)]="hora_fin" name="hora_fin" required />
+      </label>
+
+      <label>
+        Descripción
+        <textarea [(ngModel)]="descripcion" name="descripcion" rows="3"></textarea>
+      </label>
+
+      <div class="form-actions">
+        <button type="submit">{{ isEditing ? 'Actualizar reserva' : 'Crear reserva' }}</button>
+        <button type="button" class="secondary" (click)="resetForm()" *ngIf="isEditing">Cancelar</button>
+      </div>
+
+      <button type="button" class="secondary" (click)="verDisponibilidad()">Ver disponibilidad</button>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </form>
+
+    <section class="reservas-list">
+      <h2>Reservas actuales</h2>
+      <p class="status" *ngIf="isLoading">Cargando reservas...</p>
+      <p class="status" *ngIf="!isLoading && reservas.length === 0">No hay reservas activas.</p>
+
+      <div class="card" *ngFor="let reserva of reservas">
+        <div class="card-header">
+          <strong>{{ reserva.recurso_nombre }}</strong>
+          <span>{{ reserva.fecha }} {{ reserva.hora_inicio }} - {{ reserva.hora_fin }}</span>
+        </div>
+        <p>{{ reserva.descripcion }}</p>
+        <p class="meta">Reservado por: {{ reserva.usuario_nombre }}</p>
+        <div class="card-actions">
+          <button type="button" (click)="prepararEdicion(reserva)">Editar</button>
+          <button type="button" class="danger" (click)="eliminarReserva(reserva.id)">Cancelar</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="historial-section">
+    <h2>Historial de reservas</h2>
+    <p *ngIf="historial.length === 0">No hay historial.</p>
+    <div class="card" *ngFor="let reserva of historial">
+      <div class="card-header">
+        <strong>{{ reserva.recurso_nombre }}</strong>
+        <span>{{ reserva.fecha }} {{ reserva.hora_inicio }} - {{ reserva.hora_fin }}</span>
+      </div>
+      <p>{{ reserva.descripcion }}</p>
+      <p class="meta">Reservado por: {{ reserva.usuario_nombre }}</p>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,21 @@
+<section class="auth-page">
+  <h1>Iniciar sesión</h1>
+  <form (ngSubmit)="login()" novalidate>
+    <label>
+      Email
+      <input type="email" [(ngModel)]="email" name="email" required />
+    </label>
+    <label>
+      Contraseña
+      <input type="password" [(ngModel)]="password" name="password" required />
+    </label>
+    <button type="submit">Ingresar</button>
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+
+  <div class="auth-actions">
+    <a routerLink="/register">Crear cuenta</a>
+    
+    
+  </div>
+</section>

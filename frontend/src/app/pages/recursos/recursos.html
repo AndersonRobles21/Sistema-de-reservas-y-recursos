@@ -1,0 +1,75 @@
+<section class="recursos-page">
+  <div *ngIf="!isAdmin" class="no-admin-message">
+    <p>Solo los administradores pueden crear y gestionar recursos.</p>
+  </div>
+
+  <div *ngIf="isAdmin">
+    <div class="recursos-header">
+      <div>
+        <h1>Gestión de recursos</h1>
+        <p>Crear, editar y eliminar recursos conectados al backend.</p>
+      </div>
+      <button class="refresh-button" type="button" (click)="cargarRecursos()">
+        Actualizar lista
+      </button>
+    </div>
+
+    <div class="recursos-grid">
+      <form class="recursos-form" (ngSubmit)="guardarRecurso()">
+        <h2>{{ isEditing ? 'Editar recurso' : 'Nuevo recurso' }}</h2>
+
+        <label>
+          Nombre
+          <input type="text" [(ngModel)]="nombre" name="nombre" required />
+        </label>
+
+        <label>
+          Descripción
+          <textarea [(ngModel)]="descripcion" name="descripcion" rows="4" required></textarea>
+        </label>
+
+        <label>
+          Capacidad
+          <input
+            type="number"
+            [(ngModel)]="capacidad"
+            name="capacidad"
+            min="1"
+            required
+          />
+        </label>
+
+        <div class="form-actions">
+          <button type="submit">{{ isEditing ? 'Actualizar' : 'Crear recurso' }}</button>
+          <button type="button" class="secondary" (click)="resetForm()" *ngIf="isEditing">
+            Cancelar
+          </button>
+        </div>
+
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </form>
+
+      <section class="recursos-list">
+        <h2>Lista de recursos</h2>
+        <p class="status" *ngIf="isLoading">Cargando recursos...</p>
+        <p class="status" *ngIf="!isLoading && recursos.length === 0">
+          No hay recursos registrados.
+        </p>
+
+        <div class="card" *ngFor="let recurso of recursos">
+          <div class="card-header">
+            <strong>{{ recurso.nombre }}</strong>
+            <span>{{ recurso.capacidad }} personas</span>
+          </div>
+          <p>{{ recurso.descripcion }}</p>
+          <div class="card-actions">
+            <button type="button" (click)="prepararEdicion(recurso)">Editar</button>
+            <button type="button" class="danger" (click)="eliminarRecurso(recurso.id)">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
